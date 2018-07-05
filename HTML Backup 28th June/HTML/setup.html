@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Building Calculator</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+    <body>
+    <script type='text/javascript' src='https://unpkg.com/fetch-jsonp@1.1.1'></script>
+    <script src="GetSheetDone.js"></script>
+    <script>
+        const $key = "1JrIDFXOpSuMvM7BFlb2QNfzce95vitOIaEk3bQJR1oM",
+            $sheetNum = "1",
+            $output = document.getElementById('total');
+        let key,
+            sheetNum
+        // promise = GetSheetDone.labeledColsRows("1JrIDFXOpSuMvM7BFlb2QNfzce95vitOIaEk3bQJR1oM", "1");
+
+        // GetSheetDone(KEY, 1, false, true).then((data) => {
+        //     console.log('Data');
+        //     console.log(JSON.stringify(data));
+        // }).catch(err => {
+        //     console.log('Error');
+        //     console.log(err);
+        // })
+
+        function readValues() {
+            key = $key.value;
+            sheetNum =$sheetNum.value;
+            sheetType = document.querySelector('input[name="type"]:checked').value;
+        }
+
+//        function attachEvents() {
+//            $form.onsubmit = function(ev) {
+//                ev.preventDefault();
+//                readValues();
+//                console.log(key, sheetNum, sheetType);
+//
+//                switch (sheetType) {
+//                    case 'cols':
+//                        promise = GetSheetDone.labeledCols(key, sheetNum);
+//                        break;
+//                    case 'cols-rows':
+//                        promise = GetSheetDone.labeledColsRows(key, sheetNum);
+//                        break;
+//                    case 'raw':
+//                    default:
+//                        promise = GetSheetDone.raw(key, sheetNum);
+//                        break;
+//                }
+//
+//                promise.then((data) => {
+//                    console.log('Data');
+//                console.log(data);
+//                // $output.innerHTML = JSON.stringify(data);
+//            }).catch(err => {
+//                    console.log('Error');
+//                console.log(err);
+//                $output.innerHTML = err.message;
+//            })
+//            }
+//        }
+        function myFunction(baseType) {
+            let promise;
+            promise = GetSheetDone.labeledColsRows("1CRefhEZNSdqguKrl0-yUMTJvyoJgz6DVFyKVBzdYdkk", "1");
+            promise.then((data) => {
+                console.log('Data');
+            console.log(data);
+            // $output.innerHTML = JSON.stringify(data);
+            $output.innerHTML = data.data[1][1];
+        }).catch(err => {
+                console.log('Error');
+            console.log(err);
+            $output.innerHTML = err.message;
+        })
+        }
+    </script>
+    <div class="tm-body">
+        <div class="container-fluid">
+            <section id="welcome" class="tm-content-box tm-banner margin-b-10">
+                 <div class="tm-banner-inner">
+                    <h1 class="tm-banner-title">Set-Up</h1>
+                 </div>
+            </section>
+        </div>
+        <div
+            <button onclick="myFunction('reno')">Reno</button>
+            <p id="total"> </p>
+
+        </div>
+    </body>
+</html>
