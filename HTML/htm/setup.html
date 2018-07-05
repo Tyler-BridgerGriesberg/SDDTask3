@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Building Calculator</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+    <body>
+    <script type='text/javascript' src='https://unpkg.com/fetch-jsonp@1.1.1'></script>
+    <script src="GetSheetDone.js"></script>
+    <div class="tm-body">
+        <div class="container-fluid">
+            <section id="welcome" class="tm-content-box tm-banner margin-b-10">
+                 <div class="tm-banner-inner">
+                    <h1 class="tm-banner-title">Set-Up</h1>
+                 </div>
+            </section>
+        </div>
+        <div>
+            <h1 class="tm-banner-title">Type</h1>
+            <form action="">
+                <input onclick="calculateBaseCost('New')" type="radio" name="type" value="New"> New<br>
+                <input onclick="calculateBaseCost('Reno')" type="radio" name="type" value="Reno"> Reno<br>
+            </form>
+            <h1 class="tm-banner-title">Quality</h1>
+            <form action="">
+                <input onclick="calculateQuality('PoorQ')" type="radio" name="type" value="PoorQ"> Poor<br>
+                <input onclick="calculateQuality('FairQ')" type="radio" name="type" value="FairQ"> Fair<br>
+                <input onclick="calculateQuality('ExcellentQ')" type="radio" name="type" value="ExcellentQ"> Excellent<br>
+            </form>
+            <h1 class="tm-banner-title">Site Condition</h1>
+            <form action="">
+                <input onclick="calculateSiteCondition('')" type="radio" name="type" value="Difficult"> Difficult<br>
+                <input onclick="calculateSiteCondition('')" type="radio" name="type" value="Fair"> Fair<br>
+                <input onclick="calculateSiteCondition('')" type="radio" name="type" value="Good"> Good<br>
+            </form>
+            <form>
+                Interior Cost: <input type="number" name="interiorCost"><br>
+                <input type="submit" value="Submit">
+            </form>
+            <p id="total"></p>
+        </div>
+    <script>
+        //set up a constant to the output ID
+        $output = document.getElementById('total');
+        var total = 0; //stores a running total based on what user enters
+        var foundationPrice = 0;
+        var qualityPrice = 0;
+        var conditionPrice = 0;
+        var interiorPrice = 0;
+
+        function calculateBaseCost(baseType) {
+            //returns an array of row objects.
+            //sheet.data[1].item will return "Reno"
+            //sheet.data[1].cost will return "10000"
+            GetSheetDone.labeledCols("1JrIDFXOpSuMvM7BFlb2QNfzce95vitOIaEk3bQJR1oM").then(sheet => {
+                console.log(sheet.data);
+                var o; //to use in the filter function
+                //find the object within the data array that has item "Reno"
+                var foundObj = sheet.data.filter(function(o) {
+                    return o.item == baseType;
+                });
+
+                if (foundObj.length > 0) {
+                    //foundObj array contains at least 1 item
+                    foundationPrice = parseFloat(foundObj[0].cost);
+                }
+
+                $output.innerHTML = foundationPrice + qualityPrice + conditionPrice;
+            })
+        }
+
+        function calculateQuality(baseType) {
+            GetSheetDone.labeledCols("1JrIDFXOpSuMvM7BFlb2QNfzce95vitOIaEk3bQJR1oM").then(sheet => {
+                console.log(sheet.data);
+            var o;
+            var foundObj = sheet.data.filter(function(o) {
+                return o.item == baseType;
+            });
+
+            if (foundObj.length > 0) {
+                qualityPrice = parseFloat(foundObj[0].cost);
+            }
+
+            $output.innerHTML = foundationPrice + qualityPrice + conditionPrice;
+        })
+        }
+
+        function calculateSiteCondition(baseType) {
+            GetSheetDone.labeledCols("1JrIDFXOpSuMvM7BFlb2QNfzce95vitOIaEk3bQJR1oM").then(sheet => {
+                console.log(sheet.data);
+            var o;
+            var foundObj = sheet.data.filter(function(o) {
+                return o.item == baseType;
+            });
+
+            if (foundObj.length > 0) {
+                conditionPrice = parseFloat(foundObj[0].cost);
+            }
+
+            $output.innerHTML = foundationPrice + qualityPrice + conditionPrice;
+        })
+        }
+
+    </script>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fetch-json": "^2.0.0",
+    "fetch-jsonp": "^1.1.3",
+    "get-sheet-done": "^0.1.4"
+  }
+}
